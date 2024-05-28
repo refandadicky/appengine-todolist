@@ -1,16 +1,12 @@
-const mysql = require("mysql2");
+import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
 
-const dbConn = mysql.createConnection({
-	host: "34.128.68.236",
-	user: "root",
-	password: "tugasakhir",
-	database: "projectakhircc_db",
-});
+dotenv.config();
 
+const db = new Sequelize('todolist'	, 'root', 'asdfghjkl',{ 
+    host: '34.16.8.21',
+    dialect:"mysql"});
 
-dbConn.connect(function (err) {
-	if (err) throw err;
-	console.log("Database Connected!");
-});
+    
 
-module.exports = dbConn;
+export default db;

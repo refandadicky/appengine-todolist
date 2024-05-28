@@ -1,12 +1,21 @@
-const express = require("express");
+import express from "express";
+import {
+    getTask,
+    getTaskById,
+    createTask,
+    updateTask,
+    deleteTask
+} from "../controllers/taskController.js";
+
+import {verifyToken} from "../middleware/verifyToken.js"
+
 const router = express.Router();
-const taskController = require("../controllers/taskController");
 
-// Rute untuk operasi CRUD pada tabel `user_tasks`
-router.get("/", taskController.findAllTasks);
-router.post("/", taskController.createTask);
-router.get("/:id", taskController.findTaskById);
-router.put("/:id", taskController.updateTask);
-router.delete("/:id", taskController.deleteTask);
+//endpoint table user
+router.get('/task', verifyToken, getTask);
+router.get('/task/:id', verifyToken, getTaskById);
+router.post('/task/add', verifyToken, createTask);
+router.put('/task/update/:id', verifyToken, updateTask);
+router.delete('/task/delete/:id', verifyToken, deleteTask);
 
-module.exports = router;
+export default router;

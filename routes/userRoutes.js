@@ -1,13 +1,33 @@
-const express = require("express");
+import express from "express";
+import {
+    getUserById,
+    Register,
+    updateUser,
+    deleteUser,
+    loginhandler,
+    initialEnpoint,
+    logout,
+    getUser
+} from "../controllers/userController.js";
+
+import {verifyToken} from "../middleware/verifyToken.js"
+import { authToken } from "../controllers/authController.js";
+
 const router = express.Router();
-const userController = require("../controllers/userController");
 
-// Rute untuk operasi CRUD pada tabel `users`
-router.get("/", userController.findAllUsers);
-router.post("/", userController.createUser);
-router.get("/:id", userController.findUserById);
-router.put("/:id", userController.updateUser);
-router.delete("/:id", userController.deleteUser);
-router.post("/login", userController.loginUser);
+router.get('/', initialEnpoint);
 
-module.exports = router;
+
+//endpoint akses token
+router.get('/token', authToken);
+
+//endpoint table user
+router.get('/users', verifyToken, getUser);
+router.post('/login', loginhandler);
+router.post('/register', Register);
+router.get('/profile/:id', verifyToken, getUserById);
+router.put('/profile/update/:id', verifyToken, updateUser);
+router.delete('/profile/delete/:id', verifyToken, deleteUser);
+router.delete('/logout', verifyToken, logout);
+
+export default router;
